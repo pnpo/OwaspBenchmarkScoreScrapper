@@ -2,9 +2,8 @@ const glob = require('glob');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-const base_path = '../Benchmark/scorecard/'
-const in_path = process.argv[2] || base_path;
-const out_path = process.argv[3] || base_path;
+const in_path = process.argv[2] || '../Benchmark/scorecard/';
+const out_path = process.argv[3] || '../';
 
 glob(`${in_path}*_Checkmarx_SAST_*.html`, {}, scrap);
 
@@ -49,7 +48,14 @@ function scrap(error, files) {
             "score": regex.exec(infotable.eq(13).children('th').eq(9).html())[0].replace(',','.')
         }
 
-        fs.writeFile(`${out_path}score.json`,JSON.stringify(res),()=>console.log("File Was Written!"));
+        fs.writeFile(
+            `${out_path}score.json`,
+            JSON.stringify(res),
+            (err)=> {
+                if(err) throw err;
+
+                console.log("File Was Written!");
+            });
         
     });
 
