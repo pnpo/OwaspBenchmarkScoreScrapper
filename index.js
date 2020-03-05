@@ -22,7 +22,7 @@ function scrap(error, files) {
         const ch$ = cheerio.load(data);
         let res = {};
         let infotable = ch$('table').eq(1).children().children();
-        let regex = /\d+,?\d+/;
+        let regex = /\d+[,\.]?\d+/;
         for(var i = 1; i <= 11; i++) {
             let category = infotable.eq(i).children('td').eq(0).html();
              res[category] = {
